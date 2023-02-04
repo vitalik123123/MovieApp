@@ -21,10 +21,12 @@ data class FilmTopResponse_films(
     var year: String,
 
     @SerializedName("genres")
-    var genres: ArrayList<Genre>,
+    var genres: List<Genre>,
 
     @SerializedName("posterUrlPreview")
-    var poster: String
+    var poster: String,
+
+    var stateInFavorite: Boolean = false
 )
 
 data class Genre(

@@ -27,7 +27,6 @@ class MovieDetailsViewModel @AssistedInject constructor(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    println("test response in  viewmodel: $it")
                     movieLiveDataMutable.value = it
                 },{
 

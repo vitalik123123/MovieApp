@@ -3,6 +3,7 @@ package com.example.fintech2023chupin.di
 import android.content.Context
 import com.example.fintech2023chupin.di.modules.MoviesDataModule
 import com.example.fintech2023chupin.di.modules.RemoteModule
+import com.example.fintech2023chupin.di.modules.RoomModule
 import com.example.fintech2023chupin.ui.moviedetails.presentation.MovieDetailsViewModel
 import com.example.fintech2023chupin.ui.moviedetails.ui.MovieDetailsFragment
 import com.example.fintech2023chupin.ui.movieslist.presentation.MoviesListViewModel
@@ -11,7 +12,7 @@ import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
 
-@Component(modules = [RemoteModule::class, MoviesDataModule::class])
+@Component(modules = [RemoteModule::class, MoviesDataModule::class, RoomModule::class])
 @Singleton
 interface AppComponent {
     fun inject(fragment: MoviesListFragment)

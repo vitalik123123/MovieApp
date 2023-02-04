@@ -33,9 +33,7 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
 
         viewModel.fetchMovieForId(modelId!!)
 
-        viewModel.movieLiveData.observe(viewLifecycleOwner) { it ->
-
-            println("test response in fragment: $it")
+        viewModel.movieLiveData.observe(viewLifecycleOwner) {
 
             binding.tvTitleInDetails.text = it.title
             binding.tvDescriptionInDetails.text = it.description

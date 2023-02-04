@@ -2,13 +2,13 @@ package com.example.fintech2023chupin.ui.movieslist.ui
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.fintech2023chupin.R
 import com.example.fintech2023chupin.app.FintechApp
+import com.example.fintech2023chupin.data.model.FilmTopResponse_films
 import com.example.fintech2023chupin.databinding.FragmentMoviesListBinding
 import com.example.fintech2023chupin.ui.lazyViewModel
 import com.example.fintech2023chupin.ui.moviedetails.ui.MovieDetailsFragment
@@ -33,15 +33,35 @@ class MoviesListFragment : Fragment(R.layout.fragment_movies_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initUi()
+
+        binding.btnPopular.setOnClickListener {
+            viewModel.fetchApi()
+            binding.tvTitleList.setText(R.string.text_popular)
+            viewModel.listPopularMoviesLiveData.observe(viewLifecycleOwner){ list ->
+                moviesAdapter.setData(list)
+            }
+        }
+
+        binding.btnFavorite.setOnClickListener {
+            viewModel.getAllMoviesLocal()
+            binding.tvTitleList.setText(R.string.text_favorite)
+            viewModel.listFavoriteMoviesLiveData.observe(viewLifecycleOwner){ list ->
+                moviesAdapter.setData(list)
+            }
+        }
+
+        moviesAdapter.setOnClickListener(onClick)
+    }
+
+    private fun initUi(){
         binding.rvMovies.adapter = moviesAdapter
         layoutManager = LinearLayoutManager(context)
         binding.rvMovies.layoutManager = layoutManager
 
-        viewModel.listMoviesLiveData.observe(viewLifecycleOwner) {
-            moviesAdapter.setData(it)
+        viewModel.listPopularMoviesLiveData.observe(viewLifecycleOwner){list ->
+            moviesAdapter.setData(list)
         }
-
-        moviesAdapter.setOnClickListener(onClick)
     }
 
     private val onClick = object : MoviesAdapter.OnItemClickListener{
@@ -61,6 +81,10 @@ class MoviesListFragment : Fragment(R.layout.fragment_movies_list) {
                     android.R.anim.slide_out_right
                 )
                 .replace(R.id.root, fragment).addToBackStack(fragment.javaClass.simpleName).commit()
+        }
+
+        override fun onLongClick(model: FilmTopResponse_films) {
+            viewModel.saveMovieLocal(model)
         }
     }
 

@@ -42,13 +42,24 @@ class MoviesAdapter() : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
         private var itemPoster: ImageView = itemView.findViewById(R.id.imPosterInCard)
         private var itemTitle: TextView = itemView.findViewById(R.id.tvTitleInCard)
         private var itemLittleInfo: TextView = itemView.findViewById(R.id.tvLittleInfoInCard)
+        private var itemStar: ImageView = itemView.findViewById(R.id.ivInFavorite)
 
         fun bind(model: FilmTopResponse_films){
             itemTitle.text = model.title
             itemLittleInfo.text = "${model.genres[0].genre}(${model.year})"
+            if (model.stateInFavorite){
+                itemStar.setBackgroundResource(R.drawable.ic_star)
+            }else{
+                itemStar.setBackgroundResource(R.drawable.ic_star_border)
+            }
             Glide.with(itemView.context)
                 .load(model.poster)
                 .into(itemPoster)
+
+            itemView.setOnLongClickListener {
+                listener?.onLongClick(model)
+                true
+            }
 
             itemView.setOnClickListener {
                 listener?.onClick(model.id)
@@ -59,5 +70,6 @@ class MoviesAdapter() : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
 
     interface OnItemClickListener{
         fun onClick(modelId: Int)
+        fun onLongClick(model: FilmTopResponse_films)
     }
 }
