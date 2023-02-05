@@ -3,17 +3,22 @@ package com.example.fintech2023chupin.data.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.example.fintech2023chupin.data.repositories.local.room.dao.MoviesDao
-import com.example.fintech2023chupin.data.repositories.local.room.dao.MoviesEntity
+import com.example.fintech2023chupin.data.repositories.local.room.dao.moviedetails.MovieDetailsDao
+import com.example.fintech2023chupin.data.repositories.local.room.dao.moviedetails.MovieDetailsEntity
+import com.example.fintech2023chupin.data.repositories.local.room.dao.movieslist.MoviesListDao
+import com.example.fintech2023chupin.data.repositories.local.room.dao.movieslist.MoviesListEntity
 
 @Database(
     entities = [
-        MoviesEntity::class
+        MoviesListEntity::class,
+        MovieDetailsEntity::class
     ],
-    version = 2
+    version = 3
 )
 @TypeConverters(Converters::class)
 abstract class MoviesRoomDatabase : RoomDatabase() {
 
-    abstract fun moviesDao(): MoviesDao
+    abstract fun moviesDao(): MoviesListDao
+
+    abstract fun movieDetailsDao(): MovieDetailsDao
 }

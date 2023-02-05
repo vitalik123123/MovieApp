@@ -31,7 +31,7 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.fetchMovieForId(modelId!!)
+        viewModel.control(modelId!!)
 
         viewModel.movieLiveData.observe(viewLifecycleOwner) {
 

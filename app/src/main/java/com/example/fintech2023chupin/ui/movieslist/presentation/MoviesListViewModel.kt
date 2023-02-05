@@ -58,10 +58,26 @@ class MoviesListViewModel @AssistedInject constructor(
     fun saveMovieLocal(film: FilmTopResponse_films) {
         viewModelScope.launch {
             moviesRepository.checkMovieLocal(film)
+            saveMovieDetails(film.id)
         }
     }
 
-    fun refreshPopularContent() {
+    private fun saveMovieDetails(id: Int) {
+        compositeDisposable.add(
+            moviesRepository.getMovieForId(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    viewModelScope.launch {
+                        moviesRepository.createMovieDetailsLocal(it)
+                    }
+                }, {
+
+                })
+        )
+    }
+
+    private fun refreshPopularContent() {
         viewModelScope.launch {
             listFavoriteMoviesLiveDataMutable.value?.map { top ->
                 if (top.stateInFavorite) {

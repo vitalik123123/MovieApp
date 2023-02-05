@@ -18,4 +18,12 @@ interface MoviesRepository {
 
     suspend fun saveMovieLocal(film: FilmTopResponse_films)
 
+    suspend fun createMovieDetailsLocal(film: Film)
+
+    fun getForIdMovieDetailsLocal(id: Int): Single<List<Film>>
+
+    suspend fun deleteMovieDetailsLocal(id: Int)
+
+    suspend fun existsMovieDetailsLocal(id: Int): Boolean
+
 }

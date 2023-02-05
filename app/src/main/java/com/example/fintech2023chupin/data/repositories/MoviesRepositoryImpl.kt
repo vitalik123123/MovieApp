@@ -24,4 +24,12 @@ class MoviesRepositoryImpl(
 
     override suspend fun saveMovieLocal(film: FilmTopResponse_films) = moviesLocalDataSource.saveMovieLocal(film)
 
+    override suspend fun createMovieDetailsLocal(film: Film) = moviesLocalDataSource.createMovieDetailsLocal(film)
+
+    override fun getForIdMovieDetailsLocal(id: Int): Single<List<Film>> = moviesLocalDataSource.getForIdMovieDetailsLocal(id)
+
+    override suspend fun deleteMovieDetailsLocal(id: Int) = moviesLocalDataSource.deleteMovieDetailsLocal(id)
+
+    override suspend fun existsMovieDetailsLocal(id: Int): Boolean = moviesLocalDataSource.existsMovieDetailsLocal(id)
+
 }

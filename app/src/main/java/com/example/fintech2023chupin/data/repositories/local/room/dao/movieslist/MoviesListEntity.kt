@@ -1,14 +1,14 @@
-package com.example.fintech2023chupin.data.repositories.local.room.dao
+package com.example.fintech2023chupin.data.repositories.local.room.dao.movieslist
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.fintech2023chupin.data.model.FilmTopResponse_films
 import com.example.fintech2023chupin.data.model.Genre
-import com.example.fintech2023chupin.data.repositories.local.room.dao.MoviesEntity.Companion.TABLE_NAME
+import com.example.fintech2023chupin.data.repositories.local.room.dao.movieslist.MoviesListEntity.Companion.TABLE_NAME
 
 @Entity(tableName = TABLE_NAME)
-data class MoviesEntity(
+data class MoviesListEntity(
 
     @ColumnInfo(name = "id")
     @PrimaryKey
@@ -42,7 +42,7 @@ data class MoviesEntity(
     companion object {
         const val TABLE_NAME = "movies_entity_table"
 
-        fun fromFilmTopResponse_films(film: FilmTopResponse_films): MoviesEntity = MoviesEntity(
+        fun fromFilmTopResponse_films(film: FilmTopResponse_films): MoviesListEntity = MoviesListEntity(
             id = film.id,
             title = film.title,
             year = film.year,
