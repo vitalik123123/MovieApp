@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Fintech2023Chupin</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="text_popular">Популярные</string>
     <string name="text_favorite">Избранное</string>
+    <string name="text_error_connection">Произошла ошибка при загрузке данных, проверьте подключение к сети</string>
 </resources>

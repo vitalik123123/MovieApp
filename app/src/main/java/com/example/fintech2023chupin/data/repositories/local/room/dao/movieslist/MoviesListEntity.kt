@@ -42,13 +42,14 @@ data class MoviesListEntity(
     companion object {
         const val TABLE_NAME = "movies_entity_table"
 
-        fun fromFilmTopResponse_films(film: FilmTopResponse_films): MoviesListEntity = MoviesListEntity(
-            id = film.id,
-            title = film.title,
-            year = film.year,
-            genres = film.genres,
-            poster = film.poster,
-            state = true
-        )
+        fun fromFilmTopResponse_films(film: FilmTopResponse_films): MoviesListEntity =
+            MoviesListEntity(
+                id = film.id,
+                title = film.title,
+                year = film.year,
+                genres = film.genres,
+                poster = film.poster,
+                state = true
+            )
     }
 }

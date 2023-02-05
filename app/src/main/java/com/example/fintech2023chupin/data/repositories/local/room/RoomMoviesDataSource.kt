@@ -43,8 +43,8 @@ class RoomMoviesDataSource(
     }
 
     override fun getForIdMovieDetailsLocal(id: Int): Single<List<Film>> {
-        return movieDetailsDao.getForIdMovieDetailsLocal(id).map {list ->
-            list.map{
+        return movieDetailsDao.getForIdMovieDetailsLocal(id).map { list ->
+            list.map {
                 it.toFilm()
             }
         }

@@ -21,7 +21,7 @@ interface AppComponent {
     fun injectMovieDetailsViewModel(): MovieDetailsViewModel.Factory
 
     @Component.Factory
-    interface Factory{
+    interface Factory {
         fun create(@BindsInstance context: Context): AppComponent
     }
 }

@@ -21,9 +21,9 @@ class MovieDetailsViewModel @AssistedInject constructor(
 
     fun control(id: Int) {
         viewModelScope.launch {
-            if (moviesRepository.existsMovieDetailsLocal(id)){
+            if (moviesRepository.existsMovieDetailsLocal(id)) {
                 showMovieDetailsFromDatabase(id)
-            }else{
+            } else {
                 showMovieDetailsFromApi(id)
             }
         }

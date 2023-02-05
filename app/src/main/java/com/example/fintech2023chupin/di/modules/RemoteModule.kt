@@ -16,13 +16,13 @@ class RemoteModule {
 
     @Provides
     @Singleton
-    fun provideRemoteApi(retrofit: Retrofit): MoviesApi{
+    fun provideRemoteApi(retrofit: Retrofit): MoviesApi {
         return retrofit.create(MoviesApi::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideRemoteBuildRetrofit(client: OkHttpClient): Retrofit{
+    fun provideRemoteBuildRetrofit(client: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl("https://kinopoiskapiunofficial.tech")
             .client(client)
@@ -33,13 +33,13 @@ class RemoteModule {
 
     @Provides
     @Singleton
-    fun provideRemoteBuildClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient{
+    fun provideRemoteBuildClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         return OkHttpClient.Builder().addInterceptor(loggingInterceptor).build()
     }
 
     @Provides
     @Singleton
-    fun provideLoggingInterceptor(): HttpLoggingInterceptor{
+    fun provideLoggingInterceptor(): HttpLoggingInterceptor {
         val httpLoggingInterceptor = HttpLoggingInterceptor()
         httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
         return httpLoggingInterceptor

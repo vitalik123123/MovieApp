@@ -37,7 +37,7 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
 
             binding.tvTitleInDetails.text = it.title
             binding.tvDescriptionInDetails.text = it.description
-            val genre = it.genres.map {list -> list.genre }
+            val genre = it.genres.map { list -> list.genre }
             binding.tvGenresInDetails.text = "Жанры: $genre"
             val country = it.countries.map { list -> list.country }
             binding.tvCountriesInDetails.text = "Страны: $country"

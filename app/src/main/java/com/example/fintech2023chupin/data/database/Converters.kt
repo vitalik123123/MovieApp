@@ -17,5 +17,6 @@ class Converters {
     fun listCountyToJson(value: List<Country>?) = Gson().toJson(value)
 
     @TypeConverter
-    fun jsonToListCountry(value: String) = Gson().fromJson(value, Array<Country>::class.java).toList()
+    fun jsonToListCountry(value: String) =
+        Gson().fromJson(value, Array<Country>::class.java).toList()
 }

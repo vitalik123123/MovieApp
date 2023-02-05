@@ -34,34 +34,34 @@
 
     <TextView
         android:id="@+id/tvTitleInDetails"
-        android:padding="5dp"
-        android:textSize="20sp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:textSize="20sp">
 
     </TextView>
 
     <TextView
         android:id="@+id/tvDescriptionInDetails"
-        android:padding="5dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="5dp">
 
     </TextView>
 
     <TextView
         android:id="@+id/tvGenresInDetails"
-        android:padding="5dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="5dp">
 
     </TextView>
 
     <TextView
         android:id="@+id/tvCountriesInDetails"
-        android:padding="5dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="5dp">
 
     </TextView>
 

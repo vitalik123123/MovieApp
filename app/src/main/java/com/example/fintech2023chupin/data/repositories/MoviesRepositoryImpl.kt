@@ -13,23 +13,31 @@ class MoviesRepositoryImpl(
     private val moviesLocalDataSource: MoviesLocalDataSource
 ) : MoviesRepository {
 
-    override fun getMoviesRemote(): Observable<FilmTopResponse> = moviesRemoteDataSource.getMoviesRemote()
+    override fun getMoviesRemote(): Observable<FilmTopResponse> =
+        moviesRemoteDataSource.getMoviesRemote()
 
 
     override fun getMovieForId(id: Int): Observable<Film> = moviesRemoteDataSource.getMovieForId(id)
 
-    override fun getMoviesLocal(): Single<List<FilmTopResponse_films>> = moviesLocalDataSource.getAllLocalMovies()
+    override fun getMoviesLocal(): Single<List<FilmTopResponse_films>> =
+        moviesLocalDataSource.getAllLocalMovies()
 
-    override suspend fun checkMovieLocal(film: FilmTopResponse_films) = moviesLocalDataSource.checkMovieLocal(film)
+    override suspend fun checkMovieLocal(film: FilmTopResponse_films) =
+        moviesLocalDataSource.checkMovieLocal(film)
 
-    override suspend fun saveMovieLocal(film: FilmTopResponse_films) = moviesLocalDataSource.saveMovieLocal(film)
+    override suspend fun saveMovieLocal(film: FilmTopResponse_films) =
+        moviesLocalDataSource.saveMovieLocal(film)
 
-    override suspend fun createMovieDetailsLocal(film: Film) = moviesLocalDataSource.createMovieDetailsLocal(film)
+    override suspend fun createMovieDetailsLocal(film: Film) =
+        moviesLocalDataSource.createMovieDetailsLocal(film)
 
-    override fun getForIdMovieDetailsLocal(id: Int): Single<List<Film>> = moviesLocalDataSource.getForIdMovieDetailsLocal(id)
+    override fun getForIdMovieDetailsLocal(id: Int): Single<List<Film>> =
+        moviesLocalDataSource.getForIdMovieDetailsLocal(id)
 
-    override suspend fun deleteMovieDetailsLocal(id: Int) = moviesLocalDataSource.deleteMovieDetailsLocal(id)
+    override suspend fun deleteMovieDetailsLocal(id: Int) =
+        moviesLocalDataSource.deleteMovieDetailsLocal(id)
 
-    override suspend fun existsMovieDetailsLocal(id: Int): Boolean = moviesLocalDataSource.existsMovieDetailsLocal(id)
+    override suspend fun existsMovieDetailsLocal(id: Int): Boolean =
+        moviesLocalDataSource.existsMovieDetailsLocal(id)
 
 }

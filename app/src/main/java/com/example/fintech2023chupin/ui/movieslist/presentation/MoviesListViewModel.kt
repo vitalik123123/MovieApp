@@ -62,7 +62,7 @@ class MoviesListViewModel @AssistedInject constructor(
         }
     }
 
-    private fun saveMovieDetails(id: Int) {
+    fun saveMovieDetails(id: Int) {
         compositeDisposable.add(
             moviesRepository.getMovieForId(id)
                 .subscribeOn(Schedulers.io())
