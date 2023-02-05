@@ -91,6 +91,7 @@ class MoviesListFragment : Fragment(R.layout.fragment_movies_list) {
         binding.tvTitleList.setText(R.string.text_popular)
         binding.layoutError.visibility = View.GONE
         binding.rvMovies.visibility = View.VISIBLE
+        viewModel.fetchApi()
         viewModel.listPopularMoviesLiveData.observe(viewLifecycleOwner) { list ->
             moviesAdapter.setData(list)
         }
@@ -114,7 +115,7 @@ class MoviesListFragment : Fragment(R.layout.fragment_movies_list) {
         }
     }
 
-    fun disconnection() {
+    private fun disconnection() {
         binding.tvTitleList.setText(R.string.text_popular)
         binding.layoutError.visibility = View.VISIBLE
         binding.rvMovies.visibility = View.GONE
