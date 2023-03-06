@@ -16,7 +16,6 @@ class MoviesRepositoryImpl(
     override fun getMoviesRemote(): Observable<FilmTopResponse> =
         moviesRemoteDataSource.getMoviesRemote()
 
-
     override fun getMovieForId(id: Int): Observable<Film> = moviesRemoteDataSource.getMovieForId(id)
 
     override fun getMoviesLocal(): Single<List<FilmTopResponse_films>> =

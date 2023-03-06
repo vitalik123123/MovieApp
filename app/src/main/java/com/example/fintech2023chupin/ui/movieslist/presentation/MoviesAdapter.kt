@@ -58,6 +58,11 @@ class MoviesAdapter() : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
 
             itemView.setOnLongClickListener {
                 listener?.onLongClick(model)
+                if (!model.stateInFavorite) {
+                    itemStar.setBackgroundResource(R.drawable.ic_star)
+                } else {
+                    itemStar.setBackgroundResource(R.drawable.ic_star_border)
+                }
                 true
             }
 
