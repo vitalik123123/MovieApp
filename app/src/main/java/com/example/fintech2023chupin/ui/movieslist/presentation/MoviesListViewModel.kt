@@ -8,6 +8,8 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class MoviesListViewModel @AssistedInject constructor(
@@ -17,13 +19,7 @@ class MoviesListViewModel @AssistedInject constructor(
 
     private val compositeDisposable = io.reactivex.rxjava3.disposables.CompositeDisposable()
 
-    private val listPopularMoviesLiveDataMutable = MutableLiveData<List<FilmTopResponse_films>>()
-    val listPopularMoviesLiveData: LiveData<List<FilmTopResponse_films>> =
-        listPopularMoviesLiveDataMutable
-
-    private val listFavoriteMoviesLiveDataMutable = MutableLiveData<List<FilmTopResponse_films>>()
-    val listFavoriteMoviesLiveData: LiveData<List<FilmTopResponse_films>> =
-        listFavoriteMoviesLiveDataMutable
+    val state = MutableStateFlow(value = MyState())
 
     init {
         fetchApi()
@@ -36,7 +32,7 @@ class MoviesListViewModel @AssistedInject constructor(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ content ->
-                    listPopularMoviesLiveDataMutable.value = content.films
+                    state.update { ui -> ui.copy(listPopularMovies = content.films) }
                     refreshPopularContent()
                 }, {
 
@@ -50,7 +46,7 @@ class MoviesListViewModel @AssistedInject constructor(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ list ->
-                    listFavoriteMoviesLiveDataMutable.value = list
+                    state.update { ui -> ui.copy(listFavoriteMovies = list) }
                 }, {})
         )
     }
@@ -79,15 +75,27 @@ class MoviesListViewModel @AssistedInject constructor(
 
     private fun refreshPopularContent() {
         viewModelScope.launch {
-            listFavoriteMoviesLiveDataMutable.value?.map { top ->
+            state.value.listFavoriteMovies.map { top ->
                 if (top.stateInFavorite) {
-                    listPopularMoviesLiveDataMutable.value?.map { bottom ->
+                    state.value.listPopularMovies.map { bottom ->
                         if (top.id == bottom.id) {
                             bottom.stateInFavorite = true
                         }
                     }
                 }
             }
+        }
+    }
+
+    fun changeStateChoice(currentState: Boolean) {
+        state.update { ui ->
+            ui.copy(stateChoice = currentState)
+        }
+    }
+
+    fun changeStateNetwork(currentState: Boolean){
+        state.update {ui ->
+            ui.copy(stateNetwork = currentState)
         }
     }
 
@@ -100,4 +108,11 @@ class MoviesListViewModel @AssistedInject constructor(
         super.onCleared()
         compositeDisposable.clear()
     }
+
+    data class MyState(
+        val stateChoice: Boolean = true,
+        val stateNetwork: Boolean = true,
+        val listFavoriteMovies: List<FilmTopResponse_films> = emptyList(),
+        val listPopularMovies: List<FilmTopResponse_films> = emptyList()
+    )
 }

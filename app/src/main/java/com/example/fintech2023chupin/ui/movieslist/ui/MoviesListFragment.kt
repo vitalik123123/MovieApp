@@ -1,6 +1,5 @@
 package com.example.fintech2023chupin.ui.movieslist.ui
 
-import android.opengl.Visibility
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -19,7 +18,8 @@ import com.example.fintech2023chupin.ui.lazyViewModel
 import com.example.fintech2023chupin.ui.moviedetails.ui.MovieDetailsFragment
 import com.example.fintech2023chupin.ui.movieslist.presentation.MoviesAdapter
 import com.example.fintech2023chupin.ui.movieslist.presentation.MoviesListViewModel
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 class MoviesListFragment : Fragment(R.layout.fragment_movies_list) {
 
@@ -50,30 +50,31 @@ class MoviesListFragment : Fragment(R.layout.fragment_movies_list) {
                     true -> {
                         when (type) {
                             ConnectionType.Wifi -> {
-                                Toast.makeText(context, " Test connection WiFi", Toast.LENGTH_LONG)
-                                    .show()
-                                connection()
+                                viewModel.changeStateNetwork(true)
+                                viewModel.fetchApi()
                             }
                             ConnectionType.Cellular -> {
-                                Toast.makeText(
-                                    context,
-                                    " Test connection Cellular",
-                                    Toast.LENGTH_LONG
-                                ).show()
-
-                                connection()
+                                viewModel.changeStateNetwork(true)
+                                viewModel.fetchApi()
                             }
                             else -> {}
                         }
                     }
                     false -> {
-                        Toast.makeText(context, " Test connection No Connection", Toast.LENGTH_LONG)
-                            .show()
-
-                        disconnection()
+                        viewModel.changeStateNetwork(false)
                     }
                 }
             }
+        }
+
+        binding.btnPopular.setOnClickListener {
+            viewModel.changeStateChoice(currentState = true)
+            viewModel.fetchApi()
+        }
+
+        binding.btnFavorite.setOnClickListener {
+            viewModel.changeStateChoice(currentState = false)
+            viewModel.getAllMoviesLocal()
         }
 
         moviesAdapter.setOnClickListener(onClick)
@@ -84,57 +85,28 @@ class MoviesListFragment : Fragment(R.layout.fragment_movies_list) {
         layoutManager = LinearLayoutManager(context)
         binding.rvMovies.layoutManager = layoutManager
         binding.tvTitleList.setText(R.string.text_popular)
-
-    }
-
-    private fun connection() {
-        binding.tvTitleList.setText(R.string.text_popular)
-        binding.layoutError.visibility = View.GONE
-        binding.rvMovies.visibility = View.VISIBLE
         viewModel.fetchApi()
-        viewModel.listPopularMoviesLiveData.observe(viewLifecycleOwner) { list ->
-            moviesAdapter.setData(list)
-        }
-        binding.btnPopular.setOnClickListener {
-            binding.layoutError.visibility = View.GONE
-            binding.rvMovies.visibility = View.VISIBLE
-            viewModel.fetchApi()
-            binding.tvTitleList.setText(R.string.text_popular)
-            viewModel.listPopularMoviesLiveData.observe(viewLifecycleOwner) { list ->
-                moviesAdapter.setData(list)
-            }
-        }
-        binding.btnFavorite.setOnClickListener {
-            binding.layoutError.visibility = View.GONE
-            binding.rvMovies.visibility = View.VISIBLE
-            viewModel.getAllMoviesLocal()
-            binding.tvTitleList.setText(R.string.text_favorite)
-            viewModel.listFavoriteMoviesLiveData.observe(viewLifecycleOwner) { list ->
-                moviesAdapter.setData(list)
-            }
-        }
-    }
+        moviesAdapter.setData(viewModel.state.value.listPopularMovies)
 
-    private fun disconnection() {
-        binding.tvTitleList.setText(R.string.text_popular)
-        binding.layoutError.visibility = View.VISIBLE
-        binding.rvMovies.visibility = View.GONE
-
-        binding.btnFavorite.setOnClickListener {
-            binding.layoutError.visibility = View.GONE
-            binding.rvMovies.visibility = View.VISIBLE
-            viewModel.getAllMoviesLocal()
-            binding.tvTitleList.setText(R.string.text_favorite)
-            viewModel.listFavoriteMoviesLiveData.observe(viewLifecycleOwner) { list ->
-                moviesAdapter.setData(list)
+        viewModel.state.onEach {
+            if (it.stateChoice) {
+                if (it.stateNetwork) {
+                    binding.layoutError.visibility = View.GONE
+                    binding.rvMovies.visibility = View.VISIBLE
+                    binding.tvTitleList.setText(R.string.text_popular)
+                    moviesAdapter.setData(viewModel.state.value.listPopularMovies)
+                } else {
+                    binding.tvTitleList.setText(R.string.text_popular)
+                    binding.layoutError.visibility = View.VISIBLE
+                    binding.rvMovies.visibility = View.GONE
+                }
+            } else {
+                binding.layoutError.visibility = View.GONE
+                binding.rvMovies.visibility = View.VISIBLE
+                binding.tvTitleList.setText(R.string.text_favorite)
+                moviesAdapter.setData(viewModel.state.value.listFavoriteMovies)
             }
-        }
-
-        binding.btnPopular.setOnClickListener {
-            binding.tvTitleList.setText(R.string.text_popular)
-            binding.layoutError.visibility = View.VISIBLE
-            binding.rvMovies.visibility = View.GONE
-        }
+        }.launchIn(lifecycleScope)
     }
 
     private val onClick = object : MoviesAdapter.OnItemClickListener {
